@@ -24,7 +24,7 @@ require(yaml)
 Include your names
 
 Joris Vanniyasingam
-Jard van Duin
+Jard van Duin 2883878
 Roy de Wit
 
 Include the tutorial group number
