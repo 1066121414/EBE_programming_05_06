@@ -26,6 +26,7 @@ Include your names
 Joris Vanniyasingam
 Jard van Duin 2883878
 Roy de Wit 2862758
+Tristan Dijkstra 
 
 Include the tutorial group number
 
