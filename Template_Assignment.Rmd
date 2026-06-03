@@ -25,6 +25,7 @@ Include your names
 
 Joris Vanniyasingam
 Jard van Duin
+Roy de Wit
 
 Include the tutorial group number
 
