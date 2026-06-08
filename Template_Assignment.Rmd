@@ -64,8 +64,13 @@ Preferably from a URL, but if not, make sure to download the data and store it i
 #saveRDS(data_verkoopprijs, "data/verkoopprijs.rds")
 #saveRDS(data_income, "data/income.rds")
 
+data_verkoopprijs <- readRDS("data/verkoopprijs.rds")
+view(data_verkoopprijs)
+head(data_verkoopprijs)
 
-head(data)
+data_verkoopprijs <- readRDS("data/income.rds")
+view(data_income)
+head(data_income)
 
 ```
 
