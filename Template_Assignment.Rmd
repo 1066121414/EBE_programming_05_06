@@ -59,6 +59,7 @@ Preferably from a URL, but if not, make sure to download the data and store it i
 ```{r loading_data}
 
 data <- cbs_get_data("83625NED")
+data <- cbs_get_data("86163NED")
 
 head(data)
 
@@ -175,3 +176,4 @@ Provide the link to your PUBLIC repository here: ...
 ## 5.2 Reference list
 
 Use APA referencing throughout your document.
+
