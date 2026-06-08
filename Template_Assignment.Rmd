@@ -68,7 +68,7 @@ data_verkoopprijs <- readRDS("data/verkoopprijs.rds")
 view(data_verkoopprijs)
 head(data_verkoopprijs)
 
-data_verkoopprijs <- readRDS("data/income.rds")
+data_income <- readRDS("data/income.rds")
 view(data_income)
 head(data_income)
 
