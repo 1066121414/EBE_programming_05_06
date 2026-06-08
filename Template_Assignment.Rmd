@@ -58,8 +58,8 @@ Preferably from a URL, but if not, make sure to download the data and store it i
 
 ```{r loading_data}
 
-data <- cbs_get_data("83625NED")
-data <- cbs_get_data("86163NED")
+data_verkoopprijs <- cbs_get_data("83625NED")
+data_income <- cbs_get_data("86163NED")
 
 head(data)
 
