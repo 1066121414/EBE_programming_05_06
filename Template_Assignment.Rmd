@@ -61,6 +61,10 @@ Preferably from a URL, but if not, make sure to download the data and store it i
 data_verkoopprijs <- cbs_get_data("83625NED")
 data_income <- cbs_get_data("86163NED")
 
+saveRDS(data_verkoopprijs, "data/verkoopprijs.rds")
+saveRDS(data_income, "data/income.rds")
+
+
 head(data)
 
 ```
