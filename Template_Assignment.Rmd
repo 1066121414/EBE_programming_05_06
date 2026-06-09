@@ -126,7 +126,7 @@ table(data_income$RegioS)
 library(dplyr)
 
 data_verkoopprijs <- data_verkoopprijs %>%
-  filter(startsWith(RegioS, "PV"))
+  filter(startsWith(RegioS, "PV"), Perioden >= "2007JJ00", Perioden <= "2024JJ00")
 ```
 
 Please use a separate 'R block' of code for each type of cleaning. So, e.g. one for missing values, a new one for removing unnecessary variables etc.
