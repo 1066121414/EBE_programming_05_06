@@ -123,7 +123,10 @@ table(data_income$RegioS)
 
 ```
 ```{r data_cleaning}
+library(dplyr)
 
+data_verkoopprijs <- data_verkoopprijs %>%
+  filter(startsWith(RegioS, "PV"))
 ```
 
 Please use a separate 'R block' of code for each type of cleaning. So, e.g. one for missing values, a new one for removing unnecessary variables etc.
