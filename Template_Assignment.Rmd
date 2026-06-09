@@ -117,7 +117,7 @@ library(dplyr)
 
 data_income <- data_income %>%
   filter(startsWith(RegioS, "PV")) %>%
-  select("TypeZelfstandige", "BedrijfstakkenBranchesSBI2008", "RegioS", "Perioden", "GemiddeldPersoonlijkInkomen_2", "GemiddeldInkomenAlsZelfstandige_4", "MediaanInkomenAlsZelfstandige_5")
+  select("BedrijfstakkenBranchesSBI2008", "RegioS", "Perioden", "GemiddeldPersoonlijkInkomen_2", "GemiddeldInkomenAlsZelfstandige_4", "MediaanInkomenAlsZelfstandige_5")
   
 table(data_income$RegioS)
 
