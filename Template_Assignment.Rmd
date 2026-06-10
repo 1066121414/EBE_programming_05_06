@@ -128,6 +128,7 @@ data_income_cleaned <- data_income %>%
 table(data_income$RegioS)
 
 ```
+
 ```{r data_cleaning}
 library(dplyr)
 
