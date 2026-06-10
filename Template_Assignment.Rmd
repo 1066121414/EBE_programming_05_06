@@ -147,7 +147,7 @@ Please use a separate 'R block' of code for each type of cleaning. So, e.g. one 
 Variable 1
 
 ```{r gen_var1}
-
+# variable aanmaken verschil % verkoopprijs vergelijken met % inkomen
 ```
 
 Variable 2
