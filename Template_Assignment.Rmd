@@ -167,6 +167,9 @@ Variable 2
 ```{r visualise_map}
 provincies_kaart <- st_read("https://service.pdok.nl/cbs/gebiedsindelingen/2023/wfs/v1_0?service=WFS&version=2.0.0&request=GetFeature&typeName=provincie_gegeneraliseerd&outputFormat=application/json")
 
+kaart_data <- provincies_kaart %>%
+  left_join(merged_dataset, by = c("statcode" = "RegioS"))
+
 ```
 
 Here you provide a description of why the plot above is relevant to your specific social problem.
