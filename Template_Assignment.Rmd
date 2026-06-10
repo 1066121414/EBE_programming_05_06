@@ -161,6 +161,11 @@ merged_dataset <- merged_dataset %>%
   mutate(Percentage_verandering_verkoopprijs = (GemiddeldeVerkoopprijs_1 - lag(GemiddeldeVerkoopprijs_1)) / GemiddeldeVerkoopprijs_1 * 100)
 ```
 
+Variable 3
+```{r gen_var3}
+
+```
+
 ## 3.3 Visualize temporal variation
 
 ```{r}
