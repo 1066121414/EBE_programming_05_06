@@ -165,7 +165,6 @@ Variable 2
 ## 3.4 Visualize spatial variation
 
 ```{r visualise_map}
-# CBS biedt shapefiles aan via PDOK
 provincies_kaart <- st_read("https://service.pdok.nl/cbs/gebiedsindelingen/2023/wfs/v1_0?service=WFS&version=2.0.0&request=GetFeature&typeName=provincie_gegeneraliseerd&outputFormat=application/json")
 
 ```
