@@ -147,7 +147,9 @@ Please use a separate 'R block' of code for each type of cleaning. So, e.g. one 
 Variable 1
 
 ```{r gen_var1}
-# variable aanmaken verschil % verkoopprijs vergelijken met % inkomen
+# variable aanmaken verschil % verkoopprijs 
+merged_dataset <- merged_dataset %>%
+  mutate(Percentage_verandering_inkomen = (Gemiddeld_Persoonlijk_inkomen - lag(Gemiddeld_Persoonlijk_inkomen)) / Gemiddeld_Persoonlijk_inkomen * 100)
 ```
 
 Variable 2
