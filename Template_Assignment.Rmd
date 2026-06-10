@@ -115,9 +115,13 @@ mean(dataset$percollege)
 # het filteren van de code zodat alleen de provincies overblijven
 library(dplyr)
 
-data_income <- data_income %>%
+data_income_cleaned <- data_income %>%
   filter(startsWith(RegioS, "PV")) %>%
-  select("BedrijfstakkenBranchesSBI2008", "RegioS", "Perioden", "GemiddeldPersoonlijkInkomen_2", "GemiddeldInkomenAlsZelfstandige_4", "MediaanInkomenAlsZelfstandige_5")
+  select("BedrijfstakkenBranchesSBI2008", "RegioS", "Perioden", "GemiddeldPersoonlijkInkomen_2", "GemiddeldInkomenAlsZelfstandige_4", "MediaanInkomenAlsZelfstandige_5") %>%
+  group_by(Perioden, RegioS) %>%
+  summarise(Gemiddeld_Persoonlijk_inkomen = mean(GemiddeldPersoonlijkInkomen_2, na.rm = TRUE),
+            
+            )
 
 table(data_income$RegioS)
 
