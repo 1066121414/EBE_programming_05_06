@@ -127,7 +127,7 @@ table(data_income$RegioS)
 ```{r data_cleaning}
 library(dplyr)
 
-data_verkoopprijs <- data_verkoopprijs %>%
+data_verkoopprijs_cleaned <- data_verkoopprijs %>%
   filter(startsWith(RegioS, "PV")) %>%
   filter(Perioden >= "2007JJ00", Perioden <= "2024JJ00")
 ```
