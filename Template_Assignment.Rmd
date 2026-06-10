@@ -12,6 +12,8 @@ install.packages("tidyverse")
 install.packages("yaml")
 install.packages("rmarkdown")
 install.packages("cbsodataR")
+install.packages("rnaturalearth")
+install.packages("sf")
 ```
 
 ```{r packages}
@@ -19,6 +21,8 @@ require(tidyverse)
 require(rmarkdown)
 require(yaml)
 require(cbsodataR)
+require(rnaturalearth)
+require(sf)
 ```
 
 # Title Page
@@ -161,6 +165,10 @@ Variable 2
 ## 3.4 Visualize spatial variation
 
 ```{r visualise_map}
+provincies_kaart <- st_read("https://service.pdok.nl/cbs/gebiedsindelingen/2023/wfs/v1_0?service=WFS&version=2.0.0&request=GetFeature&typeName=provincie_gegeneraliseerd&outputFormat=application/json")
+
+kaart_data <- provincies_kaart %>%
+  left_join(merged_dataset, by = c("statcode" = "RegioS"))
 
 ```
 
