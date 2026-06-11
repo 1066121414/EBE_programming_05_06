@@ -181,14 +181,22 @@ mean_procentuele_verandering_inkomen <- aggregate(
   na.rm = TRUE
 )
 
-plot1 <-ggplot(mean_procentuele_verandering_inkomen,
-       aes(x = Perioden,
-           y = Percentage_verandering_inkomen)) +
-  geom_line() +
+mean_procentuele_verandering_verkoopprijs <- aggregate(
+  Percentage_verandering_verkoopprijs ~  Perioden,
+  data = merged_dataset,
+  mean,
+  na.rm = TRUE
+)
+
+plot1 <-ggplot() +
+  geom_line(data = mean_procentuele_verandering_inkomen,
+            aes(x = Perioden, y = Percentage_verandering_inkomen, color = "Inkomen")) +
+  geom_line(data = mean_procentuele_verandering_verkoopprijs,
+            aes(x = Perioden, y = Percentage_verandering_verkoopprijs, color = "Verkoopprijs")) +
   labs(
     title = "Gemiddelde procentuele verandering",
     x = "Jaren",
-    y = "procentuele verandering"
+    y = "Procentuele verandering"
   ) +
   theme_minimal() +
   scale_x_continuous(
