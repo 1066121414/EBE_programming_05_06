@@ -139,6 +139,11 @@ data_verkoopprijs_cleaned <- data_verkoopprijs %>%
 
 ```{r data_merging}
 merged_dataset <- inner_join(data_income_cleaned, data_verkoopprijs_cleaned, by = c("RegioS", "Perioden"))
+
+merged_dataset <- merged_dataset %>%
+  mutate(Perioden = substr(Perioden, 1,4)) %>%
+  mutate(Perioden = as.numeric(Perioden))
+
 ```
 
 Please use a separate 'R block' of code for each type of cleaning. So, e.g. one for missing values, a new one for removing unnecessary variables etc.
@@ -150,7 +155,7 @@ Variable 1
 ```{r gen_var1}
 # variable aanmaken verschil % inkomen
 merged_dataset <- merged_dataset %>%
-  mutate(Percentage_verandering_inkomen = (Gemiddeld_Persoonlijk_inkomen - lag(Gemiddeld_Persoonlijk_inkomen)) / Gemiddeld_Persoonlijk_inkomen * 100)
+  mutate(Percentage_verandering_inkomen = (Gemiddeld_Persoonlijk_inkomen - lag(Gemiddeld_Persoonlijk_inkomen)) / lag(Gemiddeld_Persoonlijk_inkomen) * 100)
 ```
 
 Variable 2
@@ -158,7 +163,7 @@ Variable 2
 ```{r gen_var2}
 # variable aanmaken verschil % verkoopprijs
 merged_dataset <- merged_dataset %>%
-  mutate(Percentage_verandering_verkoopprijs = (GemiddeldeVerkoopprijs_1 - lag(GemiddeldeVerkoopprijs_1)) / GemiddeldeVerkoopprijs_1 * 100)
+  mutate(Percentage_verandering_verkoopprijs = (GemiddeldeVerkoopprijs_1 - lag(GemiddeldeVerkoopprijs_1)) / lag(GemiddeldeVerkoopprijs_1) * 100)
 ```
 
 Variable 3
@@ -169,6 +174,30 @@ Variable 3
 ## 3.3 Visualize temporal variation
 
 ```{r}
+mean_procentuele_verandering_inkomen <- aggregate(
+  Percentage_verandering_inkomen ~  Perioden,
+  data = merged_dataset,
+  mean,
+  na.rm = TRUE
+)
+
+plot1 <-ggplot(mean_procentuele_verandering_inkomen,
+       aes(x = Perioden,
+           y = Percentage_verandering_inkomen)) +
+  geom_line() +
+  labs(
+    title = "Gemiddelde procentuele verandering",
+    x = "Jaren",
+    y = "procentuele verandering"
+  ) +
+  theme_minimal() +
+  scale_x_continuous(
+    breaks = seq(2008, 2024, by = 1),
+  )
+
+plot(plot1)
+  
+
 
 ```
 
