@@ -175,7 +175,7 @@ Variable 3
 
 ```{r}
 mean_procentuele_verandering_inkomen <- aggregate(
-  Percentage_verandering_inkomen ~  Perioden,
+  Percentage_verandering_inkomen ~ Perioden,
   data = merged_dataset,
   mean,
   na.rm = TRUE
@@ -212,10 +212,38 @@ plot(plot1)
 ## 3.4 Visualize spatial variation
 
 ```{r visualise_map}
+library(sf)
+
 provincies_kaart <- st_read("https://service.pdok.nl/cbs/gebiedsindelingen/2023/wfs/v1_0?service=WFS&version=2.0.0&request=GetFeature&typeName=provincie_gegeneraliseerd&outputFormat=application/json")
 
-kaart_data <- provincies_kaart %>%
-  left_join(merged_dataset, by = c("statcode" = "RegioS"))
+data_kaart <- merged_dataset %>%
+  mutate(RegioS = trimws(RegioS)) %>%
+  filter(Perioden == "2021")
+
+provincies_map <- provincies_kaart %>%
+  left_join(data_kaart, by = c("statcode" = "RegioS"))
+
+colnames(provincies_map)
+
+ggplot(provincies_map) +
+  geom_sf(aes(fill = GemiddeldeVerkoopprijs_1)) +
+  scale_fill_gradient(
+     low = "#ffcccc",
+     high = "#8b0000",
+    name = "Gemiddelde\nVerkoopprijs (€)",
+    labels = scales::comma
+  ) +
+  labs(
+    title = "Gemiddelde Verkoopprijs Koopwoningen per Provincie",
+    subtitle = "2021",
+    caption = "Bron: CBS"
+  ) +
+  theme_void() +
+  theme(
+    plot.title = element_text(size = 14, face = "bold"),
+    legend.position = "right"
+  )
+
 
 ```
 
@@ -226,17 +254,45 @@ Here you provide a description of why the plot above is relevant to your specifi
 What is the poverty rate by state?
 
 ```{r visualise_subpopulations}
-dataset$inmetro <- dataset$inmetro %>% as.factor()
-# Boxplot of poverty rate by state using the 'midwest' dataset
-ggplot(dataset, aes(x = inmetro, y = percadultpoverty)) +
-  geom_boxplot() +
-  labs(
-    title = "Distribution of Poverty Rates by Metropolitan status (Midwest counties)",
-    x = "Metropolitan Area",
-    y = "Poverty Rate of Adults (%)"
+provincies_kaart <- st_read("https://service.pdok.nl/cbs/gebiedsindelingen/2023/wfs/v1_0?service=WFS&version=2.0.0&request=GetFeature&typeName=provincie_gegeneraliseerd&outputFormat=application/json")
+
+data_kaart <- merged_dataset %>%
+  mutate(RegioS = trimws(RegioS)) %>%
+  filter(Perioden == "2021") %>%
+  mutate(Regio = case_when(
+    RegioS %in% c("PV20", "PV21", "PV22") ~ "Noord",
+    RegioS %in% c("PV23", "PV24", "PV25") ~ "Oost",
+    RegioS %in% c("PV27", "PV28", "PV26") ~ "West",
+    RegioS %in% c("PV29", "PV30", "PV31") ~ "Zuid",
+    TRUE ~ "Onbekend"
+  ))
+
+regio_data <- data_kaart %>%
+  group_by(Regio) %>%
+  summarise(GemPrijs = mean(GemiddeldeVerkoopprijs_1, na.rm = TRUE))
+
+provincies_map <- provincies_kaart %>%
+  left_join(data_kaart, by = c("statcode" = "RegioS")) %>%
+  group_by(Regio) %>%
+  summarise(GemPrijs = mean(GemiddeldeVerkoopprijs_1, na.rm = TRUE),
+            geometry = st_union(geometry))
+
+ggplot(provincies_map) +
+  geom_sf(aes(fill = GemPrijs)) +
+  scale_fill_gradient(
+    low = "#cce5ff",
+    high = "#003366",
+    name = "Gemiddelde\nVerkoopprijs (€)",
+    labels = scales::comma
   ) +
-  theme_minimal() +
+  geom_sf_label(aes(label = Regio), size = 4, color = "red") +
+  labs(
+    title = "Gemiddelde Verkoopprijs per Regio",
+    caption = "Bron: CBS"
+  ) +
+  theme_void() +
   theme(
+    plot.title = element_text(size = 14, face = "bold"),
     legend.position = "right"
   )
 ```
