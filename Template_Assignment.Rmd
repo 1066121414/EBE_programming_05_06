@@ -179,7 +179,7 @@ mean_procentuele_verandering_verkoopprijs <- aggregate(
   na.rm = TRUE
 )
 
-plot1 <-ggplot() +
+plot_procentuele_veranderingen <-ggplot() +
   geom_line(data = mean_procentuele_verandering_inkomen,
             aes(x = Perioden, y = Percentage_verandering_inkomen, color = "Inkomen")) +
   geom_line(data = mean_procentuele_verandering_verkoopprijs,
@@ -194,7 +194,7 @@ plot1 <-ggplot() +
     breaks = seq(2008, 2024, by = 1),
   )
 
-plot(plot1)
+plot(plot_procentuele_veranderingen)
   
 
 
@@ -246,7 +246,7 @@ mean_verkoopprijs <- aggregate(
   na.rm = TRUE
 )
 
-plot2 <-ggplot() +
+plot_verkoopprijzen_event <-ggplot() +
   geom_line(data = mean_verkoopprijs,
             aes(x = Perioden, y = GemiddeldeVerkoopprijs_1, color = "Verkoopprijs")) +
   labs(
@@ -260,7 +260,7 @@ plot2 <-ggplot() +
   ) +
   geom_vline(aes(xintercept=2020, color="Covid-19"), linetype="dashed")
 
-plot(plot2)
+plot(plot_verkoopprijzen_event)
 ```
 
 Here you provide a description of why the plot above is relevant to your specific social problem.
