@@ -27,19 +27,14 @@ require(sf)
 
 # Title Page
 
-Include your names
 
-Joris Vanniyasingam
+Joris Vanniyasingam 2812507
 Jard van Duin 2883878
 Roy de Wit 2862758
-Tristan Dijkstra 
-David Lot
-
-Include the tutorial group number
+Tristan Dijkstra 2864813
+David Lot 2784019
 
 Group 05 06
-
-Include your tutorial lecturer's name
 
 Simon Loop
 
@@ -49,11 +44,7 @@ Use APA referencing throughout your document. [Here's a link to some explanation
 
 ## 1.1 Describe the Social Problem
 
-Include the following:
-
--   Why is this relevant?
-
--   ...
+The Dutch housing market has seen a substantial increases in housing prices over the past 2 decades. As housing becomes less affordable, it becomes clear that income is not increasing at a rate which can keep up with the rising costs of housing. This report analyses how housing costs and income change, looking at the 12 separate dutch provinces. By doing this, it makes it possible to analyse if the changes in housing prices and income differ per province, making it possible to see if a province with higher income also has higher housing prices compared to provinces with a lower income. This report could then be a helpful tool for deciding in which province it is most economically efficient to buy a house in. 
 
 # Part 2 - Data Sourcing
 
