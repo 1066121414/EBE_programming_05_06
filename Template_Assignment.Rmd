@@ -248,7 +248,28 @@ Here you provide a description of why the plot above is relevant to your specifi
 Analyze the relationship between two variables.
 
 ```{r analysis}
+mean_verkoopprijs <- aggregate(
+  GemiddeldeVerkoopprijs_1 ~  Perioden,
+  data = merged_dataset,
+  mean,
+  na.rm = TRUE
+)
 
+plot2 <-ggplot() +
+  geom_line(data = mean_verkoopprijs,
+            aes(x = Perioden, y = GemiddeldeVerkoopprijs_1, color = "Verkoopprijs")) +
+  labs(
+    title = "Verkoopprijs over de jaren",
+    x = "Jaren",
+    y = "Verkoopprijs woningen"
+  ) +
+  theme_minimal() +
+  scale_x_continuous(
+    breaks = seq(2008, 2024, by = 4),
+  ) +
+  geom_vline(aes(xintercept=2020, color="Covid-19"), linetype="dashed")
+
+plot(plot2)
 ```
 
 Here you provide a description of why the plot above is relevant to your specific social problem.
