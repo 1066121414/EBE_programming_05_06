@@ -194,6 +194,7 @@ plot(plot_procentuele_veranderingen)
 
 
 ```
+Both income and house prices fluctuate over time, but house prices generally change more than income. There is a gap between income growth and housing price growth. While income increased gradually and remained stable, house prices rose much more in several years. This means that buying a house has become less affordable.
 
 ## 3.4 Visualize spatial variation
 
@@ -233,7 +234,7 @@ ggplot(provincies_map) +
 
 ```
 
-Here you provide a description of why the plot above is relevant to your specific social problem.
+Housing affordability is not the same across all provinces. Since house prices differ by province, the pressure on households also differs depending on where they live. This information could be compared to income data to analyse whether some provinces are relatively more or less affordable than others.
 
 ## 3.5 Visualize sub-population variation
 
@@ -283,7 +284,7 @@ ggplot(provincies_map) +
   )
 ```
 
-Here you provide a description of why the plot above is relevant to your specific social problem.
+This map shows the average selling price of homes in 2021 grouped by the regions North, East, South and West. It shows that housing affordablility is clearly related to location. These regional housing prices could be compared with regional income levels to get an insight on whether higher prices are compensated by higher incomes.
 
 ## 3.6 Event analysis
 
@@ -314,7 +315,7 @@ plot_verkoopprijzen_event <-ggplot() +
 plot(plot_verkoopprijzen_event)
 ```
 
-Here you provide a description of why the plot above is relevant to your specific social problem.
+The vertical dashed line marks the beginning of the Covid-19 period, after which house prices continued to increase. Although there is a small decline after the peak, the general trend is upwards. It shows that rising housing costs are not only a regional issue, but also a long-term national trend. 
 
 # Part 4 - Discussion
 
