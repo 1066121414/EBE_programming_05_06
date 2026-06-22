@@ -279,7 +279,7 @@ ggplot(data_kaart, aes(x = Regio, y = Gemiddeld_Persoonlijk_inkomen, fill = Regi
   )
 ```
 
-This boxplot shows the average income in 2021 grouped by the regions North, East, South and West. It shows that the western region stands out, which is expected due to the western region contaning the four largest cities in the Netherlands. These regional incomes could be compared with housing prices to get an insight on whether higher prices are compensated by higher incomes.
+This boxplot shows the average income in 2021 grouped by the regions North, East, South and West. It shows that the western region stands out, which is expected due to the western region contaning the four largest cities in the Netherlands. Moreover, the graph highlights the larger spread of income distribution in the western region compared to the other regions. These regional incomes could be compared with housing prices to get an insight on whether higher prices are compensated by higher incomes.
 
 ## 3.6 Event analysis
 
