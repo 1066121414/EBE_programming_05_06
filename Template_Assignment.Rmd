@@ -221,9 +221,9 @@ ggplot(provincies_map) +
     labels = scales::comma
   ) +
   labs(
-    title = "Average selling price of properties per Province",
+    title = "Average selling price of properties per province",
     subtitle = "2021",
-    caption = "Bron: CBS"
+    caption = "Source: CBS"
   ) +
   theme_void() +
   theme(
@@ -241,8 +241,6 @@ Housing affordability is not the same across all provinces. Since house prices d
 What is the poverty rate by state?
 
 ```{r visualise_subpopulations}
-provincies_kaart <- st_read("https://service.pdok.nl/cbs/gebiedsindelingen/2023/wfs/v1_0?service=WFS&version=2.0.0&request=GetFeature&typeName=provincie_gegeneraliseerd&outputFormat=application/json")
-
 data_kaart <- merged_dataset %>%
   mutate(RegioS = trimws(RegioS)) %>%
   filter(Perioden == "2021") %>%
@@ -251,40 +249,37 @@ data_kaart <- merged_dataset %>%
     RegioS %in% c("PV23", "PV24", "PV25") ~ "East",
     RegioS %in% c("PV27", "PV28", "PV26") ~ "West",
     RegioS %in% c("PV29", "PV30", "PV31") ~ "South",
-    TRUE ~ "Onbekend"
-  ))
+    TRUE ~ "Unknown"
+  ))%>%
+  mutate(Regio = factor(Regio, levels = c("North", "East", "South", "West")))
 
 regio_data <- data_kaart %>%
   group_by(Regio) %>%
-  summarise(GemPrijs = mean(GemiddeldeVerkoopprijs_1, na.rm = TRUE))
+  summarise(GemInkomen = mean(Gemiddeld_Persoonlijk_inkomen, na.rm = TRUE))
 
 provincies_map <- provincies_kaart %>%
   left_join(data_kaart, by = c("statcode" = "RegioS")) %>%
   group_by(Regio) %>%
-  summarise(GemPrijs = mean(GemiddeldeVerkoopprijs_1, na.rm = TRUE),
+  summarise(GemInkomen = mean(Gemiddeld_Persoonlijk_inkomen, na.rm = TRUE),
             geometry = st_union(geometry))
 
-ggplot(provincies_map) +
-  geom_sf(aes(fill = GemPrijs)) +
-  scale_fill_gradient(
-    low = "#cce5ff",
-    high = "#003366",
-    name = "Average\nSelling price (€)",
-    labels = scales::comma
-  ) +
-  geom_sf_label(aes(label = Regio), size = 4, color = "red") +
+ggplot(data_kaart, aes(x = Regio, y = Gemiddeld_Persoonlijk_inkomen, fill = Regio)) +
+  geom_boxplot() +
   labs(
-    title = "Average selling price per region",
+    title = "Income distribution per region",
+    subtitle = "2021",
+    x = "Region",
+    y = "Average Income (€)",
     caption = "Source: CBS"
   ) +
-  theme_void() +
+  theme_minimal() +
   theme(
     plot.title = element_text(size = 14, face = "bold"),
-    legend.position = "right"
+    legend.position = "none"
   )
 ```
 
-This map shows the average selling price of homes in 2021 grouped by the regions North, East, South and West. It shows that housing affordablility is clearly related to location. These regional housing prices could be compared with regional income levels to get an insight on whether higher prices are compensated by higher incomes.
+This boxplot shows the average income in 2021 grouped by the regions North, East, South and West. It shows that the western region stands out, which is expected due to the western region contaning the four largest cities in the Netherlands. These regional incomes could be compared with housing prices to get an insight on whether higher prices are compensated by higher incomes.
 
 ## 3.6 Event analysis
 
@@ -320,6 +315,7 @@ The vertical dashed line marks the beginning of the Covid-19 period, after which
 # Part 4 - Discussion
 
 ## 4.1 Discuss your findings
+Our analysis shows that housing prices are the highest in North-Holland and Utrecht, while in the northern and southern-most provinces Friesland, Groningen, Zeeland and Limburg the prices are the lowest. Additionally, our analysis showed that the average income is the highest in the western region while it is the lowest in the northern region of the Netherlands. While the average percentile change in income and housing prices were fairly even after the 2009 economic crisis, we can see that after 2013 the change in average income is not compensating enough for the higher change in housing prices. This gap however, drastically increased after the Covid-19 pandemic, resulting in an extremely high percentile change in housing prices between 2020-2022 and a relatively small increase in average income which is unable to compensate for the extreme change in housing prices. This suggests that the number of homes being built needs to be increased in order to compensate for the lack thereof during the Covid-19 lockdowns. This leads to the number of available homes increasing which in turn leads to a decrease in housing prices.  
 
 # Part 5 - Reproducibility
 
