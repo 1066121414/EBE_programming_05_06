@@ -176,13 +176,13 @@ mean_procentuele_verandering_verkoopprijs <- aggregate(
 
 plot_procentuele_veranderingen <-ggplot() +
   geom_line(data = mean_procentuele_verandering_inkomen,
-            aes(x = Perioden, y = Percentage_verandering_inkomen, color = "Inkomen")) +
+            aes(x = Perioden, y = Percentage_verandering_inkomen, color = "Income")) +
   geom_line(data = mean_procentuele_verandering_verkoopprijs,
-            aes(x = Perioden, y = Percentage_verandering_verkoopprijs, color = "Verkoopprijs")) +
+            aes(x = Perioden, y = Percentage_verandering_verkoopprijs, color = "Selling price")) +
   labs(
-    title = "Gemiddelde procentuele verandering",
-    x = "Jaren",
-    y = "Procentuele verandering"
+    title = "Average change in percentage",
+    x = "Year",
+    y = "Change in percentage"
   ) +
   theme_minimal() +
   scale_x_continuous(
@@ -217,11 +217,11 @@ ggplot(provincies_map) +
   scale_fill_gradient(
      low = "#ffcccc",
      high = "#8b0000",
-    name = "Gemiddelde\nVerkoopprijs (€)",
+    name = "Average\nSelling price (€)",
     labels = scales::comma
   ) +
   labs(
-    title = "Gemiddelde Verkoopprijs Koopwoningen per Provincie",
+    title = "Average selling price of properties per Province",
     subtitle = "2021",
     caption = "Bron: CBS"
   ) +
@@ -247,10 +247,10 @@ data_kaart <- merged_dataset %>%
   mutate(RegioS = trimws(RegioS)) %>%
   filter(Perioden == "2021") %>%
   mutate(Regio = case_when(
-    RegioS %in% c("PV20", "PV21", "PV22") ~ "Noord",
-    RegioS %in% c("PV23", "PV24", "PV25") ~ "Oost",
+    RegioS %in% c("PV20", "PV21", "PV22") ~ "North",
+    RegioS %in% c("PV23", "PV24", "PV25") ~ "East",
     RegioS %in% c("PV27", "PV28", "PV26") ~ "West",
-    RegioS %in% c("PV29", "PV30", "PV31") ~ "Zuid",
+    RegioS %in% c("PV29", "PV30", "PV31") ~ "South",
     TRUE ~ "Onbekend"
   ))
 
@@ -269,13 +269,13 @@ ggplot(provincies_map) +
   scale_fill_gradient(
     low = "#cce5ff",
     high = "#003366",
-    name = "Gemiddelde\nVerkoopprijs (€)",
+    name = "Average\nSelling price (€)",
     labels = scales::comma
   ) +
   geom_sf_label(aes(label = Regio), size = 4, color = "red") +
   labs(
-    title = "Gemiddelde Verkoopprijs per Regio",
-    caption = "Bron: CBS"
+    title = "Average selling price per region",
+    caption = "Source: CBS"
   ) +
   theme_void() +
   theme(
@@ -300,17 +300,17 @@ mean_verkoopprijs <- aggregate(
 
 plot_verkoopprijzen_event <-ggplot() +
   geom_line(data = mean_verkoopprijs,
-            aes(x = Perioden, y = GemiddeldeVerkoopprijs_1, color = "Verkoopprijs")) +
+            aes(x = Perioden, y = GemiddeldeVerkoopprijs_1, color = "Selling price")) +
   labs(
-    title = "Verkoopprijs over de jaren",
-    x = "Jaren",
-    y = "Verkoopprijs woningen"
+    title = "Sales price over the years",
+    x = "Year",
+    y = "Selling prices of homes"
   ) +
   theme_minimal() +
   scale_x_continuous(
     breaks = seq(2008, 2024, by = 4),
   ) +
-  geom_vline(aes(xintercept=2020, color="Begin Covid-19"), linetype="dashed")
+  geom_vline(aes(xintercept=2020, color="Beginning Covid-19"), linetype="dashed")
 
 plot(plot_verkoopprijzen_event)
 ```
