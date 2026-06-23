@@ -5,7 +5,7 @@ date: "`r Sys.Date()`"
 output: pdf_document
 ---
 
-# Set-up your environment
+# Set-up of our environment
 
 ```{r package_install, include=FALSE}
 install.packages("tidyverse")
@@ -26,7 +26,6 @@ require(sf)
 ```
 
 # Title Page
-
 
 Joris Vanniyasingam 2812507
 Jard van Duin 2883878
@@ -50,7 +49,6 @@ The Dutch housing market has seen a substantial increases in housing prices over
 
 ## 2.1 Load in the data
 
-Preferably from a URL, but if not, make sure to download the data and store it in a shared location that you can load the data in from. Do not store the data in a folder you include in the Github repository!
 
 ```{r loading_data}
 
@@ -70,41 +68,20 @@ head(data_income)
 
 ```
 
-midwest is an example dataset included in the tidyverse package
 
 ## 2.2 Provide a short summary of the dataset(s)
 
-```{r}
-head(dataset)
-```
 
-In this case we see 28 variables, but we miss some information on what units they are in. We also don't know anything about the year/moment in which this data has been captured.
-
-``` r
-inline_code = TRUE
-```
-
-These are things that are usually included in the metadata of the dataset. For your project, you need to provide us with the information from your metadata that we need to understand your dataset of choice.
 
 ## 2.3 Describe the type of variables included
 
-Think of things like:
 
--   Do the variables contain health information or SES information?
-
--   Have they been measured by interviewing individuals or is the data coming from administrative sources?
 
 *For the sake of this example, I will continue with the assignment...*
 
 # Part 3 - Quantifying
 
 ## 3.1 Data cleaning
-
-Say we want to include only larger distances (above 2) in our dataset, we can filter for this.
-
-```{r data_cleaning}
-mean(dataset$percollege)
-```
 
 ```{r data_cleaning}
 # het filteren van de code zodat alleen de provincies overblijven
@@ -137,7 +114,6 @@ merged_dataset <- merged_dataset %>%
 
 ```
 
-Please use a separate 'R block' of code for each type of cleaning. So, e.g. one for missing values, a new one for removing unnecessary variables etc.
 
 ## 3.2 Generate necessary variables
 
@@ -283,7 +259,6 @@ This boxplot shows the average income in 2021 grouped by the regions North, East
 
 ## 3.6 Event analysis
 
-Analyze the relationship between two variables.
 
 ```{r analysis}
 mean_verkoopprijs <- aggregate(
@@ -324,7 +299,5 @@ Our analysis shows that housing prices are the highest in North-Holland and Utre
 https://github.com/1066121414/EBE_programming_05_06
 
 ## 5.2 Reference list
-
-Use APA referencing throughout your document.
 
 Centraal Bureau voor de Statistiek. (2025, 19 november). Zelfstandigen; inkomen, vermogen, regio (indeling 2025). Centraal Bureau Voor de Statistiek. https://www.cbs.nl/nl-nl/cijfers/detail/86163NED#shortTableDescription 
