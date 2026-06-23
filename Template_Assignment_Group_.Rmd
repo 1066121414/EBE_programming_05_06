@@ -1,0 +1,342 @@
+---
+title: Quantifying a social problem: Housing prices and income per Province
+author: Joris Vanniyasingam (2812507), Jard van Duin (2883878), Roy de Wit (2862758), Tristan Dijkstra (2864813), David Lot (2784019)
+date: June 23
+output: pdf_document
+---
+
+# Set-up of our environment
+
+```{r package_install, include=FALSE}
+install.packages("tidyverse")
+install.packages("yaml")
+install.packages("rmarkdown")
+install.packages("cbsodataR")
+install.packages("rnaturalearth")
+install.packages("sf")
+```
+
+```{r packages}
+require(tidyverse)
+require(rmarkdown)
+require(yaml)
+require(cbsodataR)
+require(rnaturalearth)
+require(sf)
+```
+
+# Title Page
+
+Joris Vanniyasingam 2812507
+Jard van Duin 2883878
+Roy de Wit 2862758
+Tristan Dijkstra 2864813
+David Lot 2784019
+
+Group 05 06
+
+Simon Loop
+
+# Part 1 - Identify a Social Problem
+
+Over the past 2 decades, the Netherlands has seen a growing housing-affordability crisis (Housing Market Monitor - EU Housing Markets Share Common Problems, 2025). Rising housing prices, combined with wages that have failed to keep up with these increases, have made it increasingly difficult for young starters and students to enter the housing market (Aalderink, 2026). The differences between the growth of housing prices and income growth vary greatly depending on which province in the Netherlands is looked at (Waar Kun Jij Nog Wel Een Huis Kopen?, n.d.). Understanding these provincial differences is essential for potential homebuyers, as it allows them to evaluate where potentially buying a home is financially within reach.
+
+
+## 1.1 Describe the Social Problem
+
+The Dutch housing market has seen a substantial increases in housing prices over the past 2 decades (Infotaris, 2025). As housing becomes less affordable, it becomes clear that income is not increasing at a rate which can keep up with the rising costs of housing. This report analyses how housing costs and income change, looking at the 12 separate dutch provinces. By doing this, it makes it possible to analyse if the changes in housing prices and income differ per province, making it possible to see if a province with higher income also has higher housing prices compared to provinces with a lower income. This report could then be a helpful tool for deciding in which province it is most economically efficient to buy a house in. 
+
+# Part 2 - Data Sourcing
+
+## 2.1 Load in the data
+
+
+```{r loading_data}
+
+#data_verkoopprijs <- cbs_get_data("83625NED")
+#data_income <- cbs_get_data("86163NED")
+
+#saveRDS(data_verkoopprijs, "data/verkoopprijs.rds")
+#saveRDS(data_income, "data/income.rds")
+
+data_verkoopprijs <- readRDS("data/verkoopprijs.rds")
+view(data_verkoopprijs)
+head(data_verkoopprijs)
+
+data_income <- readRDS("data/income.rds")
+view(data_income)
+head(data_income)
+
+```
+
+
+## 2.2 Provide a short summary of the dataset(s)
+
+Both datasets come from the CBS website. The first dataset (83625NED) contains the average selling price of a home per province per year. In this dataset PV stands for each province with a number behind it for every specific province. All the other letters stand for other smaller or bigger regions in The Netherlands. Since there are very many of these and they are not relevant, it is not necessary to explain them further. 
+
+Below each province with its unique PV code:
+
+PV20: Groningen
+PV21: Friesland
+PV22: Drenthe
+PV23: Overijssel
+PV24: Flevoland
+PV25: Gelderland
+PV26: Utrecht
+PV27: Noord-Holland
+PV28: Zuid-Holland
+PV29: Zeeland
+PV30: Noord-Brabant
+PV31: Limburg
+
+The other one (86163NED) contains the average income per self-employed worker per industry sector. The same PV codes have also been used here for every province. Subsequently, the dataset contains information on the average income per self-employed person per working sector. Each sector has its own unique SBI code. Each unique code can be traced back to a sector via the search function on the CBS website. Since there are a huge number of these we have chosen to take the total average. 
+
+
+
+## 2.3 Describe the type of variables included
+
+The two datasets from the the CBS mainly contain SES information. The key variables are as follow:
+
+-Province (PV) code with PV20–PV31: this variable identifies the province.
+-Year: time variable indicating the observation period.
+-Average selling price of homes: numerical variable in euros from dataset 83625NED.
+-Average income of self-employed workers: numerical variable in euros from dataset 86163NED.
+-Industry sector code (SBI): categorical variable, identifies the economic sector in which self-employed workers operate.
+
+Both of the datasets are based on administrative data. Dataset 83625NED about the average selling price of a home is derived from registered housing transactions recorded by the Kadaster. The dataset 86163NED about the average income per self-employed worker is based on administrative income records processed by the CBS and the Dutch Tax Administration (Belastingdienst).
+
+
+# Part 3 - Quantifying
+
+## 3.1 Data cleaning
+
+```{r data_cleaning}
+# het filteren van de code zodat alleen de provincies overblijven
+library(dplyr)
+
+data_income_cleaned <- data_income %>%
+  filter(startsWith(RegioS, "PV")) %>%
+  select("BedrijfstakkenBranchesSBI2008", "RegioS", "Perioden", "GemiddeldPersoonlijkInkomen_2") %>%
+  group_by(RegioS, Perioden) %>%
+  summarise(Gemiddeld_Persoonlijk_inkomen = mean(GemiddeldPersoonlijkInkomen_2, na.rm = TRUE),            )
+
+table(data_income$RegioS)
+
+```
+
+```{r data_cleaning}
+library(dplyr)
+
+data_verkoopprijs_cleaned <- data_verkoopprijs %>%
+  filter(startsWith(RegioS, "PV")) %>%
+  filter(Perioden >= "2007JJ00", Perioden <= "2024JJ00")
+```
+
+```{r data_merging}
+merged_dataset <- inner_join(data_income_cleaned, data_verkoopprijs_cleaned, by = c("RegioS", "Perioden"))
+
+merged_dataset <- merged_dataset %>%
+  mutate(Perioden = substr(Perioden, 1,4)) %>%
+  mutate(Perioden = as.numeric(Perioden))
+
+```
+
+
+## 3.2 Generate necessary variables
+
+Variable 1
+
+```{r gen_var1}
+# variable aanmaken verschil % inkomen
+merged_dataset <- merged_dataset %>%
+  mutate(Percentage_verandering_inkomen = (Gemiddeld_Persoonlijk_inkomen - lag(Gemiddeld_Persoonlijk_inkomen)) / lag(Gemiddeld_Persoonlijk_inkomen) * 100)
+```
+
+Variable 2
+
+```{r gen_var2}
+# variable aanmaken verschil % verkoopprijs
+merged_dataset <- merged_dataset %>%
+  mutate(Percentage_verandering_verkoopprijs = (GemiddeldeVerkoopprijs_1 - lag(GemiddeldeVerkoopprijs_1)) / lag(GemiddeldeVerkoopprijs_1) * 100)
+```
+
+## 3.3 Visualize temporal variation
+
+```{r}
+mean_procentuele_verandering_inkomen <- aggregate(
+  Percentage_verandering_inkomen ~ Perioden,
+  data = merged_dataset,
+  mean,
+  na.rm = TRUE
+)
+
+mean_procentuele_verandering_verkoopprijs <- aggregate(
+  Percentage_verandering_verkoopprijs ~  Perioden,
+  data = merged_dataset,
+  mean,
+  na.rm = TRUE
+)
+
+plot_procentuele_veranderingen <-ggplot() +
+  geom_line(data = mean_procentuele_verandering_inkomen,
+            aes(x = Perioden, y = Percentage_verandering_inkomen, color = "Income")) +
+  geom_line(data = mean_procentuele_verandering_verkoopprijs,
+            aes(x = Perioden, y = Percentage_verandering_verkoopprijs, color = "Selling price")) +
+  labs(
+    title = "Average change in percentage",
+    x = "Year",
+    y = "Change in percentage"
+  ) +
+  theme_minimal() +
+  scale_x_continuous(
+    breaks = seq(2008, 2024, by = 1),
+  )
+
+plot(plot_procentuele_veranderingen)
+  
+
+
+```
+Both income and house prices fluctuate over time, but house prices generally change more than income. There is a gap between income growth and housing price growth. While income increased gradually and remained stable, house prices rose much more in several years. This means that buying a house has become less affordable.
+
+## 3.4 Visualize spatial variation
+
+```{r visualise_map}
+library(sf)
+
+provincies_kaart <- st_read("https://service.pdok.nl/cbs/gebiedsindelingen/2023/wfs/v1_0?service=WFS&version=2.0.0&request=GetFeature&typeName=provincie_gegeneraliseerd&outputFormat=application/json")
+
+data_kaart <- merged_dataset %>%
+  mutate(RegioS = trimws(RegioS)) %>%
+  filter(Perioden == "2021")
+
+provincies_map <- provincies_kaart %>%
+  left_join(data_kaart, by = c("statcode" = "RegioS"))
+
+colnames(provincies_map)
+
+ggplot(provincies_map) +
+  geom_sf(aes(fill = GemiddeldeVerkoopprijs_1)) +
+  scale_fill_gradient(
+     low = "#ffcccc",
+     high = "#8b0000",
+    name = "Average\nSelling price (€)",
+    labels = scales::comma
+  ) +
+  labs(
+    title = "Average selling price of properties per province",
+    subtitle = "2021",
+    caption = "Source: CBS"
+  ) +
+  theme_void() +
+  theme(
+    plot.title = element_text(size = 14, face = "bold"),
+    legend.position = "right"
+  )
+
+
+```
+
+Housing affordability is not the same across all provinces. Since house prices differ by province, the pressure on households also differs depending on where they live. This information could be compared to income data to analyse whether some provinces are relatively more or less affordable than others.
+
+## 3.5 Visualize sub-population variation
+
+What is the poverty rate by state?
+
+```{r visualise_subpopulations}
+data_kaart <- merged_dataset %>%
+  mutate(RegioS = trimws(RegioS)) %>%
+  filter(Perioden == "2021") %>%
+  mutate(Regio = case_when(
+    RegioS %in% c("PV20", "PV21", "PV22") ~ "North",
+    RegioS %in% c("PV23", "PV24", "PV25") ~ "East",
+    RegioS %in% c("PV27", "PV28", "PV26") ~ "West",
+    RegioS %in% c("PV29", "PV30", "PV31") ~ "South",
+    TRUE ~ "Unknown"
+  ))%>%
+  mutate(Regio = factor(Regio, levels = c("North", "East", "South", "West")))
+
+regio_data <- data_kaart %>%
+  group_by(Regio) %>%
+  summarise(GemInkomen = mean(Gemiddeld_Persoonlijk_inkomen, na.rm = TRUE))
+
+provincies_map <- provincies_kaart %>%
+  left_join(data_kaart, by = c("statcode" = "RegioS")) %>%
+  group_by(Regio) %>%
+  summarise(GemInkomen = mean(Gemiddeld_Persoonlijk_inkomen, na.rm = TRUE),
+            geometry = st_union(geometry))
+
+ggplot(data_kaart, aes(x = Regio, y = Gemiddeld_Persoonlijk_inkomen, fill = Regio)) +
+  geom_boxplot() +
+  labs(
+    title = "Income distribution per region",
+    subtitle = "2021",
+    x = "Region",
+    y = "Average Income (€)",
+    caption = "Source: CBS"
+  ) +
+  theme_minimal() +
+  theme(
+    plot.title = element_text(size = 14, face = "bold"),
+    legend.position = "none"
+  )
+```
+
+This boxplot shows the average income in 2021 grouped by the regions North, East, South and West. It shows that the western region stands out, which is expected due to the western region contaning the four largest cities in the Netherlands. Moreover, the graph highlights the larger spread of income distribution in the western region compared to the other regions. These regional incomes could be compared with housing prices to get an insight on whether higher prices are compensated by higher incomes.
+
+## 3.6 Event analysis
+
+
+```{r analysis}
+mean_verkoopprijs <- aggregate(
+  GemiddeldeVerkoopprijs_1 ~  Perioden,
+  data = merged_dataset,
+  mean,
+  na.rm = TRUE
+)
+
+plot_verkoopprijzen_event <-ggplot() +
+  geom_line(data = mean_verkoopprijs,
+            aes(x = Perioden, y = GemiddeldeVerkoopprijs_1, color = "Selling price")) +
+  labs(
+    title = "Sales price over the years",
+    x = "Year",
+    y = "Selling prices of homes"
+  ) +
+  theme_minimal() +
+  scale_x_continuous(
+    breaks = seq(2008, 2024, by = 4),
+  ) +
+  geom_vline(aes(xintercept=2020, color="Beginning Covid-19"), linetype="dashed")
+
+plot(plot_verkoopprijzen_event)
+```
+
+The vertical dashed line marks the beginning of the Covid-19 period, after which house prices continued to increase. Although there is a small decline after the peak, the general trend is upwards. It shows that rising housing costs are not only a regional issue, but also a long-term national trend. 
+
+# Part 4 - Discussion
+
+## 4.1 Discuss your findings
+Our analysis shows that housing prices are the highest in North-Holland and Utrecht, while in the northern and southern-most provinces Friesland, Groningen, Zeeland and Limburg the prices are the lowest. Additionally, our analysis showed that the average income is the highest in the western region while it is the lowest in the northern region of the Netherlands. While the average percentile change in income and housing prices were fairly even after the 2009 economic crisis, we can see that after 2013 the change in average income is not compensating enough for the higher change in housing prices. This gap however, drastically increased after the Covid-19 pandemic, resulting in an extremely high percentile change in housing prices between 2020-2022 and a relatively small increase in average income which is unable to compensate for the extreme change in housing prices. This suggests that the number of homes being built needs to be increased in order to compensate for the lack thereof during the Covid-19 lockdowns. This leads to the number of available homes increasing which in turn leads to a decrease in housing prices.  
+
+# Part 5 - Reproducibility
+
+## 5.1 Github repository link
+
+https://github.com/1066121414/EBE_programming_05_06
+
+## 5.2 Reference list
+
+Aalderink, T. (2026, April 17). De absurde kloof tussen inkomen en huizenprijs per provincie. Manners Magazine. https://www.manners.nl/kloof-inkomen-hypotheek-gemiddelde-huizenprijs-provincie/
+
+Centraal Bureau voor de Statistiek. (2025, November 19). Zelfstandigen; inkomen, vermogen, regio (indeling 2025). Centraal Bureau Voor De Statistiek. https://www.cbs.nl/nl-nl/cijfers/detail/86163NED#shortTableDescription
+
+Housing market monitor - EU housing markets share common problems. (2025, April 30). ABN AMRO Bank. https://www.abnamro.com/research/en/our-research/housing-market-monitor-eu-housing-markets-share-common-problems
+
+Infotaris. (2025, August 23). Huizenprijzen grafiek 2005-2025. Infotaris. https://www.infotaris.nl/blogs/huizenprijzen-grafiek/
+
+StatLine - Bestaande koopwoningen; gemiddelde verkoopprijzen, regio. (n.d.). https://opendata.cbs.nl/#/CBS/nl/dataset/83625NED/table?dl=CFC61
+
+Waar kun jij nog wel een huis kopen? (n.d.). ABN AMRO. https://www.abnamro.nl/nl/prive/hypotheken/wonen/waar-kun-jij-nog-wel-een-huis-kopen.html
+
+
