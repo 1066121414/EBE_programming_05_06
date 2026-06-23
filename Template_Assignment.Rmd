@@ -298,4 +298,6 @@ https://github.com/1066121414/EBE_programming_05_06
 
 ## 5.2 Reference list
 
-Centraal Bureau voor de Statistiek. (2025, 19 november). Zelfstandigen; inkomen, vermogen, regio (indeling 2025). Centraal Bureau Voor de Statistiek. https://www.cbs.nl/nl-nl/cijfers/detail/86163NED#shortTableDescription 
+CBS Statline. (z.d.). https://opendata.cbs.nl/#/CBS/nl/dataset/83625NED/table?dl=CFC61
+
+Centraal Bureau voor de Statistiek. (2025, 19 november). Zelfstandigen; inkomen, vermogen, regio (indeling 2025). Centraal Bureau Voor de Statistiek. https://www.cbs.nl/nl-nl/cijfers/detail/86163NED
