@@ -327,6 +327,16 @@ https://github.com/1066121414/EBE_programming_05_06
 
 ## 5.2 Reference list
 
-CBS Statline. (z.d.). https://opendata.cbs.nl/#/CBS/nl/dataset/83625NED/table?dl=CFC61
+Aalderink, T. (2026, April 17). De absurde kloof tussen inkomen en huizenprijs per provincie. Manners Magazine. https://www.manners.nl/kloof-inkomen-hypotheek-gemiddelde-huizenprijs-provincie/
 
-Centraal Bureau voor de Statistiek. (2025, 19 november). Zelfstandigen; inkomen, vermogen, regio (indeling 2025). Centraal Bureau Voor de Statistiek. https://www.cbs.nl/nl-nl/cijfers/detail/86163NED
+Centraal Bureau voor de Statistiek. (2025, November 19). Zelfstandigen; inkomen, vermogen, regio (indeling 2025). Centraal Bureau Voor De Statistiek. https://www.cbs.nl/nl-nl/cijfers/detail/86163NED#shortTableDescription
+
+Housing market monitor - EU housing markets share common problems. (2025, April 30). ABN AMRO Bank. https://www.abnamro.com/research/en/our-research/housing-market-monitor-eu-housing-markets-share-common-problems
+
+Infotaris. (2025, August 23). Huizenprijzen grafiek 2005-2025. Infotaris. https://www.infotaris.nl/blogs/huizenprijzen-grafiek/
+
+StatLine - Bestaande koopwoningen; gemiddelde verkoopprijzen, regio. (n.d.). https://opendata.cbs.nl/#/CBS/nl/dataset/83625NED/table?dl=CFC61
+
+Waar kun jij nog wel een huis kopen? (n.d.). ABN AMRO. https://www.abnamro.nl/nl/prive/hypotheken/wonen/waar-kun-jij-nog-wel-een-huis-kopen.html
+
+
