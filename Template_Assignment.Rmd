@@ -1,7 +1,7 @@
 ---
-title: "Template"
-author: "Studentnames and studentnumbers here"
-date: "`r Sys.Date()`"
+title: Quantifying a social problem: Housing prices and income per Province
+author: Joris Vanniyasingam (2812507), Jard van Duin (2883878), Roy de Wit (2862758), Tristan Dijkstra (2864813), David Lot (2784019)
+date: June 23
 output: pdf_document
 ---
 
@@ -72,13 +72,39 @@ head(data_income)
 
 ## 2.2 Provide a short summary of the dataset(s)
 
+Both datasets come from the CBS website. The first dataset (83625NED) contains the average selling price of a home per province per year. In this dataset PV stands for each province with a number behind it for every specific province. All the other letters stand for other smaller or bigger regions in The Netherlands. Since there are very many of these and they are not relevant, it is not necessary to explain them further. 
+
+Below each province with its unique PV code:
+
+PV20: Groningen
+PV21: Friesland
+PV22: Drenthe
+PV23: Overijssel
+PV24: Flevoland
+PV25: Gelderland
+PV26: Utrecht
+PV27: Noord-Holland
+PV28: Zuid-Holland
+PV29: Zeeland
+PV30: Noord-Brabant
+PV31: Limburg
+
+The other one (86163NED) contains the average income per self-employed worker per industry sector. The same PV codes have also been used here for every province. Subsequently, the dataset contains information on the average income per self-employed person per working sector. Each sector has its own unique SBI code. Each unique code can be traced back to a sector via the search function on the CBS website. Since there are a huge number of these we have chosen to take the total average. 
+
 
 
 ## 2.3 Describe the type of variables included
 
+The two datasets from the the CBS mainly contain SES information. The key variables are as follow:
 
+-Province (PV) code with PV20–PV31: this variable identifies the province.
+-Year: time variable indicating the observation period.
+-Average selling price of homes: numerical variable in euros from dataset 83625NED.
+-Average income of self-employed workers: numerical variable in euros from dataset 86163NED.
+-Industry sector code (SBI): categorical variable, identifies the economic sector in which self-employed workers operate.
 
-*For the sake of this example, I will continue with the assignment...*
+Both of the datasets are based on administrative data. Dataset 83625NED about the average selling price of a home is derived from registered housing transactions recorded by the Kadaster. The dataset 86163NED about the average income per self-employed worker is based on administrative income records processed by the CBS and the Dutch Tax Administration (Belastingdienst).
+
 
 # Part 3 - Quantifying
 
@@ -301,4 +327,6 @@ https://github.com/1066121414/EBE_programming_05_06
 
 ## 5.2 Reference list
 
-Centraal Bureau voor de Statistiek. (2025, 19 november). Zelfstandigen; inkomen, vermogen, regio (indeling 2025). Centraal Bureau Voor de Statistiek. https://www.cbs.nl/nl-nl/cijfers/detail/86163NED#shortTableDescription 
+CBS Statline. (z.d.). https://opendata.cbs.nl/#/CBS/nl/dataset/83625NED/table?dl=CFC61
+
+Centraal Bureau voor de Statistiek. (2025, 19 november). Zelfstandigen; inkomen, vermogen, regio (indeling 2025). Centraal Bureau Voor de Statistiek. https://www.cbs.nl/nl-nl/cijfers/detail/86163NED
