@@ -39,9 +39,12 @@ Simon Loop
 
 # Part 1 - Identify a Social Problem
 
+Over the past 2 decades, the Netherlands has seen a growing housing-affordability crisis (Housing Market Monitor - EU Housing Markets Share Common Problems, 2025). Rising housing prices, combined with wages that have failed to keep up with these increases, have made it increasingly difficult for young starters and students to enter the housing market (Aalderink, 2026). The differences between the growth of housing prices and income growth vary greatly depending on which province in the Netherlands is looked at (Waar Kun Jij Nog Wel Een Huis Kopen?, n.d.). Understanding these provincial differences is essential for potential homebuyers, as it allows them to evaluate where potentially buying a home is financially within reach.
+
+
 ## 1.1 Describe the Social Problem
 
-The Dutch housing market has seen a substantial increases in housing prices over the past 2 decades. As housing becomes less affordable, it becomes clear that income is not increasing at a rate which can keep up with the rising costs of housing. This report analyses how housing costs and income change, looking at the 12 separate dutch provinces. By doing this, it makes it possible to analyse if the changes in housing prices and income differ per province, making it possible to see if a province with higher income also has higher housing prices compared to provinces with a lower income. This report could then be a helpful tool for deciding in which province it is most economically efficient to buy a house in. 
+The Dutch housing market has seen a substantial increases in housing prices over the past 2 decades (Infotaris, 2025). As housing becomes less affordable, it becomes clear that income is not increasing at a rate which can keep up with the rising costs of housing. This report analyses how housing costs and income change, looking at the 12 separate dutch provinces. By doing this, it makes it possible to analyse if the changes in housing prices and income differ per province, making it possible to see if a province with higher income also has higher housing prices compared to provinces with a lower income. This report could then be a helpful tool for deciding in which province it is most economically efficient to buy a house in. 
 
 # Part 2 - Data Sourcing
 
